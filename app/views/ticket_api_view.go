@@ -7,26 +7,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// FindTickets is ... GET /tickets
-func FindTickets(c *gin.Context) {
-	var tickets []models.Ticket
-	models.DB.Find(&tickets)
-
-	c.JSON(http.StatusOK, gin.H{"data": tickets})
-}
-
+// GetTickets is ...
 func GetTickets(c *gin.Context) {
-	// Connection to the database
-	db := InitDb()
-	// Close connection database
+	// Connection handling of the database
+	db := models.InitDb()
 	defer db.Close()
 
-	var tickets []Tickets
-	// SELECT * FROM users
-	db.Find(&tickets)
+	var tickets []models.Ticket
+	// SELECT * FROM tickets
+	db.Find(&tickets, []int{4, 6})
 
 	// Display JSON result
-	c.JSON(200, tickets)
-
-	// curl -i http://localhost:8080/api/v1/users
+	out := gin.H{"tickets": tickets}
+	c.JSON(http.StatusOK, out)
 }

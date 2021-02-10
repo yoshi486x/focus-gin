@@ -1,36 +1,21 @@
 package models
 
-import(
-	"log"
-
+import (
 	"github.com/jinzhu/gorm"
-	_ "github.com/mattn/go-sqlite3"
 )
 
-type Tickets struct {
-	ID			int 	`gorm:"AUTO_INCREMENT" json:"id" form: "id`
-	Title 		string 	`json:"title" form: "title"`
-	Description	string 	`json:"description" form: "description"`
+// Ticket is a sample table for benchmarking
+type Ticket struct {
+	ID          int    `json:"id" form:"id" gorm:"primary_key"`
+	Title       string `json:"title" form:"title"`
+	Description string `json:"description" form:"description"`
 }
 
-// var DB *gorm.DB
-
-// func ConnectDB() {
-// 	var err error
-
-// 	db, err := gorm.Open("sqlite3", "focus_dev")
-// 	if err != nil {
-// 		log.Fatalln(err)
-// 	}
-
-// 	db.AutoMigrate(&Ticket{})
-
-// 	DB = db
-// }
-
+// InitDb initializes database via gorm
 func InitDb() *gorm.DB {
 	// Openning file
-	db, err := gorm.Open("sqlite3", "./data.db")
+	db, err := gorm.Open("sqlite3", "./focus_dev.db")
+
 	// Display SQL queries
 	db.LogMode(true)
 
@@ -39,9 +24,9 @@ func InitDb() *gorm.DB {
 		panic(err)
 	}
 	// Creating the table
-	if !db.HasTable(&Tickets{}) {
-		db.CreateTable(&Tickets{})
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Tickets{})
+	if !db.HasTable(&Ticket{}) {
+		db.CreateTable(&Ticket{})
+		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Ticket{})
 	}
 
 	return db

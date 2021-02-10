@@ -3,16 +3,17 @@ package main
 import (
 	"net/http"
 	"news/app/views"
-	"news/app/models"
+	// "news/app/models"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // Set env before execution. `export PORT=9090`
 func main() {
 	r := gin.Default()
 	
-	models.ConnectDB()
+	// models.ConnectDB()
 
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello, World! I'm Gin!")
@@ -22,12 +23,12 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.GET("/tickets", views.FindTickets)
+	// r.GET("/tickets", views.FindTickets)
 	v1 := r.Group("api/v1")
 	{
-		v1.GET("/tickets", GetTickets)
+		v1.GET("/tickets", views.GetTickets)
 	}
 
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080"
+	r.Run(":9090") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080"
 }
 
