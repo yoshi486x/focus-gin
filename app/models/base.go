@@ -1,33 +1,36 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	// "focus-gin/config"
+	"time"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 // Ticket is a sample table for benchmarking
 type Ticket struct {
-	ID          int    `json:"id" form:"id" gorm:"primary_key"`
-	Title       string `json:"title" form:"title"`
-	Description string `json:"description" form:"description"`
+	gorm.Model
+	ID          int    		`json:"id" form:"id" gorm:"primary_key"`
+	Title       string 		`json:"title" form:"title"`
+	UpdatedAt 	time.Time 	`json:"updated_at" form:"updated_at"`
+	DeletedAt 	time.Time	`json:"deleted_at" form:"deleted_at"`
+	CreatedAt 	time.Time 	`json:"created_at" form:"created_at"`
 }
 
 // InitDb initializes database via gorm
 func InitDb() *gorm.DB {
 	// Openning file
-	db, err := gorm.Open("sqlite3", "./focus_dev.db")
+	// dsn := "gorm:gorm@tcp(localhost:9910)/gorm?charset=utf8&parseTime=True&loc=Local"
+	dsn := "root:yFJw4b74nts8ybLo@tcp(34.84.108.14:3306)/focus_dev?charset=utf8&parseTime=True&loc=Local"
 
-	// Display SQL queries
-	db.LogMode(true)
-
-	// Error
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		panic("failed to connect database")
 	}
-	// Creating the table
-	if !db.HasTable(&Ticket{}) {
-		db.CreateTable(&Ticket{})
-		db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Ticket{})
-	}
+
+	// Migrate the schema
+	db.AutoMigrate(&Ticket{})
 
 	return db
 }

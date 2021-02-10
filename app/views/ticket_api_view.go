@@ -11,7 +11,6 @@ import (
 func GetTickets(c *gin.Context) {
 	// Connection handling of the database
 	db := models.InitDb()
-	defer db.Close()
 
 	var tickets []models.Ticket
 	// SELECT * FROM tickets
