@@ -2,7 +2,7 @@ package views
 
 import (
 	"net/http"
-	"news/app/models"
+	"focus-gin/app/models"
 
 	"github.com/gin-gonic/gin"
 )
