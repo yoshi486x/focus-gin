@@ -10,7 +10,7 @@ import (
 
 // Ticket is a sample table for benchmarking
 type Ticket struct {
-	gorm.Model
+	// gorm.Model
 	ID          int    		`json:"id" form:"id" gorm:"primary_key"`
 	Title       string 		`json:"title" form:"title"`
 	UpdatedAt 	time.Time 	`json:"updated_at" form:"updated_at"`
