@@ -14,7 +14,8 @@ func GetTickets(c *gin.Context) {
 
 	var tickets []models.Ticket
 	// SELECT * FROM tickets
-	db.Find(&tickets, []int{4, 6})
+	// db.Find(&tickets, []int{4, 6})
+	db.Find(&tickets, 1)
 
 	// Display JSON result
 	out := gin.H{"tickets": tickets}
