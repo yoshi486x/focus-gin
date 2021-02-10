@@ -27,6 +27,6 @@ func main() {
 		v1.GET("/tickets", views.GetTickets)
 	}
 
-	r.Run(":9090")
+	r.Run(":8080")
 }
 
